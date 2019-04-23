@@ -7,8 +7,8 @@ permalink: /about/
 ### About me
 
 I like to break hardware and software, mainly by reversing them. Some may know my stuff
-I did in the past, such as my tools "QMAT", "PSAS", "RevSkills". My main expertise
-are QC chipsets and their insecurities. If possible, I do responsible disclosure.
+I did in the past, such as my tools "QMAT", "PSAS", "RevSkills" and "Mobile Revelator". 
+My main expertise are QC chipsets and their insecurities. If possible, I do responsible disclosure.
 
 ### Contact me
 
