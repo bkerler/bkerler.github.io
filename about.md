@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+### About me
 
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself.
+I like to break hardware and software, mainly by reversing them. Some may know my stuff
+I did in the past, such as my tools "QMAT", "PSAS", "RevSkills". My main expertise
+are QC chipsets and their insecurities. If possible, I do responsible disclosure.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[info@revskills.de](mailto:info@revskills.de)
