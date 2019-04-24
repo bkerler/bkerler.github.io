@@ -41,7 +41,7 @@ So we finally have our vendor.img and we are trying to mount it. Doesn't work. B
 Ok, obviously I missed something, but the layout looks like ext4 but with pagesize of 4096 instead of 512, still kind of weird.
 Maybe another researcher has an idea and sends me an email ? :D
 
-Anyway, as we are real reverser, we know that the file we are interested into is an arm library and should start with an ELF header ".ELF", has a size of approx 300-700K and it should contain the bytepattern "004C494243006C6962632E736F006C69626170706C7970617463685F6A6E692E736F00" (which is just the library export handler for libpatchapply_jni.so).
+Anyway, as we are real reverser, we know that the file we are interested into is an arm library and should start with an ELF header ".ELF", has a size of approx 300-700K and it should contain the bytepattern "004C494243006C6962632E736F006C69626170706C79706174" (which is just the library export handler for libpatchapply_jni.so).
 
 Using that information, we first search for the bytepattern in our crafted vendor.bin using ofp_extract and yay, we got two hits at offset 0x25B148EB and 0x28205157. We expected that, as we should have two libraries in the system, on for 32bit and one for 64bit. Now we are seeking for the beginning
 of the ELF, searching for "7F454C46" (".ELF") just above the offset 0x25B148EB, which results in a hit at offset 0x25B11000.
