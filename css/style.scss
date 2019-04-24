@@ -260,15 +260,15 @@ ul {
 		color: $white;
 		margin-top: 0px;
 		padding-top: 15px;
-		font-size: 25px;
+		font-size: 30px;
 
 		@media (min-width: $screen-sm-min) {
-			font-size: 52px;
+			font-size: 46px;
 			margin-top: 0px;
 		}
 
 		@media (min-width: $screen-md-min) {
-			font-size: 60px;
+			font-size: 52px;
 			margin-top: -20px;
 		}
 	}
