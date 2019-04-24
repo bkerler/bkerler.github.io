@@ -5,9 +5,9 @@ real world people at the troopers conference.
 
 In this lesson, we are choosing a rather easy target before we're heading the more advanced targets such as Qualcomm Basebands. For today, we will concentrate on how to reverse engineer an aes encryption key for those nifty encrypted oppo firmware packages with ".ozip" extension.
 
-We will use Ghidra for reversing, so if you haven't installed it yet, take your time and grab your copy at [https://ghidra-sre.org](here) or for automated install on ubuntu/debian, use my installer over [https://github.com/bkerler/ghidra_installer](here).
+We will use Ghidra for reversing, so if you haven't installed it yet, take your time and grab your copy at [https://ghidra-sre.org](here) or for automated install on ubuntu/debian, use my installer over [here](https://github.com/bkerler/ghidra_installer).
 
-As a start, in order to understand what we need, take a look at my repo implementing the ozip [https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py](decrypter) in python 3.x. Basically you can see that the encrypted ozip files always start with an header "OPPOENCRYPT!" at the first 12 bytes. The data to be decrypted starts at the offset 0x1050 and is usually encrypted using a simple aes 128 with mode ECB and a block size of 0x4000 bytes.
+As a start, in order to understand what we need, take a look at my repo implementing the ozip [decrypter](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py) in python 3.x. Basically you can see that the encrypted ozip files always start with an header "OPPOENCRYPT!" at the first 12 bytes. The data to be decrypted starts at the offset 0x1050 and is usually encrypted using a simple aes 128 with mode ECB and a block size of 0x4000 bytes.
 
 In order to test if our key is valid, we just take the first 16 bytes and try to decrypt it with our reversed 16 bytes key using the aes_dec function. If the key is the right one, we should see a regular zip header "PK..." or bytes "504B0304" in the hex editor after decryption.
 
@@ -26,7 +26,7 @@ and fired up my lovely 010Editor (hexeditor). Obviously we are lucky and only th
 
 So here we are, looking with our favorite hexeditor at that file, we finally see some sort of structure. The byte pattern "CAC30000" and "CAC10000" are normally used by android firmware for image reconstruction and allows us to search for the possible partition start and thus might help to find the vendor partition which we need. Over there I wrote a script for it :
 
-[https://github.com/bkerler/bkerler.github.io/stuff/ofp_extract.py](ofp_extract.py)
+[ofp_extract.py](https://github.com/bkerler/bkerler.github.io/stuff/ofp_extract.py)
 
 So we finally have our vendor.img and we are trying to mount it. Doesn't work. But you know, we're not giving up, right ?
 
@@ -50,7 +50,7 @@ Once you got it, fire up ghidra. If you haven't created a project, do it now.
 Then import "libapplypatch_jni.so" using File->Import File and double click on it.
 If being asked for analysing the file first, do so.
 
-As we are searching for an aes key with 128bit (16 bytes), let's have a look for the openssl standard implementation setting up an aes key for decryption, which is commonly used in native libraries : [https://docs.huihoo.com/doxygen/openssl/1.0.1c/crypto_2aes_2aes_8h.html#a2091bfbf02d00a2f4ce67085d1a0d0ac](aes_set_decrypt_key). Enter "aes_set_decrypt_key" in the Filter option in the Symbol Tree. You will see that there is one hit in the Exports table. Doubleclick it so that it is shown in the Listing window. You can see
+As we are searching for an aes key with 128bit (16 bytes), let's have a look for the openssl standard implementation setting up an aes key for decryption, which is commonly used in native libraries : [aes_set_decrypt_key](https://docs.huihoo.com/doxygen/openssl/1.0.1c/crypto_2aes_2aes_8h.html#a2091bfbf02d00a2f4ce67085d1a0d0ac). Enter "aes_set_decrypt_key" in the Filter option in the Symbol Tree. You will see that there is one hit in the Exports table. Doubleclick it so that it is shown in the Listing window. You can see
 by the looks at the registers, that the function has three parameters, which are "userKey", "bits" and "key". The latter is the key context, but as we are interested in finding the correct aes key, we choose the first parameter to be interesting.
 
 Now we just need to trace back which function actually fills the first parameter of our
@@ -64,7 +64,7 @@ Double clicking the realkey pointer, voilà, starting at 0x78034, we see an aes_
 After having a look at all references to "aes_set_decrypt_key", we find a total of six
 aes keys called "userkey", "mnkey", "mkey", "testkey", "realkey" and "utilkey".
 
-We ain't got time to fully reverse the usage of each and every key, so we fit in the keys into the keys section of our python3 script [https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py](decrypter), and try to decrypt an ozip for this device.
+We ain't got time to fully reverse the usage of each and every key, so we fit in the keys into the keys section of our python3 script [decrypter](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py), and try to decrypt an ozip for this device.
 
 ```
 bjk@Lappy:~/Projects/oppo_ozip_decrypt$ ./ozipdecrypt.py RMX1831EX_11_OTA_0070_all_UqwwgT6ye4J1.ozip 
