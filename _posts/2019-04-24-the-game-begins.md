@@ -14,7 +14,7 @@ In order to test if our key is valid, we just take the first 16 bytes and try to
 So, in order to understand where those ozip files are decrypted, there are usually two types of suspects where we can
 search for. The first one, is the "/sbin/recovery" from the recovery in case your device is rooted. If it's not rooted however, I highly recommend the "/vendor/lib64/libapplypatch_jni.so" instead which is the easiest one to get. So, enable the adb debugging on your target device, then run 
 
-```
+```bash
 ~> adb pull /vendor/lib64/libapplypatch_jni.so
 ```
 
@@ -66,7 +66,7 @@ aes keys called "userkey", "mnkey", "mkey", "testkey", "realkey" and "utilkey".
 
 We ain't got time to fully reverse the usage of each and every key, so we fit in the keys into the keys section of our python3 script [decrypter](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py), and try to decrypt an ozip for this device.
 
-```
+```bash
 bjk@Lappy:~/Projects/oppo_ozip_decrypt$ ./ozipdecrypt.py RMX1831EX_11_OTA_0070_all_UqwwgT6ye4J1.ozip 
 ozipdecrypt 0.3 (c) B.Kerler 2017-2019
 Found correct AES key: acaa1e12a71431ce4a1b21bba1c1c6a2
