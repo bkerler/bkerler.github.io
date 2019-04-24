@@ -9,7 +9,7 @@ url: http://bkerler.github.io
 avatar: https://avatars2.githubusercontent.com/u/6317772?s=40&v=4
 
 # For a project page here should be a project name. Otherwise (for user's/organization's page leave it empty)
-baseurl: '/jekyll-clean-dark'
+baseurl: ''
 
 share:
   facebook: true
