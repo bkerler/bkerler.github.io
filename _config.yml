@@ -1,86 +1,55 @@
-#
-# This file contains configuration flags to customize your site
-#
+# Jekyll configuration
 
-# Name of your site (displayed in the header)
 name: B.Kerler's Reversing Cave
-
-# Short bio or description (displayed in the header)
 description: Just another reversing blog
 
-# URL of your avatar or profile pic (you could use your GitHub profile pic)
+# Url is currently only used only for the RSS feed in feed.xml
+url: http://bkerler.github.io
+#url: http://localhost:4000
 avatar: https://avatars2.githubusercontent.com/u/6317772?s=40&v=4
 
-#
-# Flags below are optional
-#
+# For a project page here should be a project name. Otherwise (for user's/organization's page leave it empty)
+baseurl: '/jekyll-clean-dark'
 
-# Includes an icon in the footer for each username you enter
-footer-links:
-  dribbble:
-  email: bkerler @ revskills.de
-  facebook:
-  flickr:
+share:
+  facebook: true
+  twitter: true
+  gplus: true
+  linkedin: true
+  pinterest: true
+  email: true
+
+social:
   github: bkerler
-  instagram:
+  stackoverflow: ''
   linkedin:
-  pinterest:
-  rss: # just type anything here for a working RSS icon
   twitter: viperbjk
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
-  youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: # anything in your profile username that comes after plus.google.com/
+  instagram: ''
+  lastfm: ''
+  rss: feed.xml
+
+# Google Analytics key, leave blank to ignore
+google_analytics_key:
+# Yandex metrica (https://metrica.yandex.com/) leave blank to ignore or put true to use
+yandex_metrica:
 
 
-# Enter your Disqus shortname (not your username) to enable commenting on posts
-# You can find your shortname on the Settings page of your Disqus account
-disqus:
+# Set this to your disqus shortname to enable comments. Note that the 'comments'
+# setting below must also be true. Individual posts can override 'comments' to
+# disable on a post-by-post basis
+disqus: bkerler
+comments: false
 
-# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics: UA-138861602-1
+permalink: /:year/:month/:title/
 
-# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
-# Used for Sitemap.xml and your RSS feed
-url: https://bkerler.github.io
+# Enable for using pages, more details are here: http://jekyllrb.com/docs/pagination/
+#paginate: 3
 
-# If you're hosting your site at a Project repository on GitHub pages
-# (http://yourusername.github.io/repository-name)
-# and NOT your User repository (http://yourusername.github.io)
-# then add in the baseurl here, like this: "/repository-name"
-baseurl: ""
+#highlighter: rouge
 
-#
-# !! You don't need to change any of the configuration flags below !!
-#
-
-permalink: /:title/
-
-# The release of Jekyll Now that you're using
-version: v1.2.0
-
-# Jekyll 3 now only supports Kramdown for Markdown
+markdown: kramdown
 kramdown:
-  # Use GitHub flavored markdown, including triple backtick fenced code blocks
-  input: GFM
-  # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    # Use existing pygments syntax highlighting css
-    css_class: 'highlight'
+  input: GFM # Enable GitHub Flavored Markdown (fenced code blocks)
+  hard_wrap: true
 
-# Set the Sass partials directory, as we're using @imports
-sass:
-  style: :expanded # You might prefer to minify using :compressed
-
-# Use the following plug-ins
-gems:
-  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
-  - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
-
-# Exclude these files from your production _site
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - LICENSE
-  - README.md
-  - CNAME
+exclude: ['README.md', 'LICENSE']
