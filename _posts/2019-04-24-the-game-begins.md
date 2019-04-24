@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Reversing an Oppo ozip encryption key from encrypted firmware
-date:       2014-06-10 12:31:19
+date:       2019-04-24 19:12:00
 summary:    How to find an aes key for a Realme ozip firmware file.
 categories: reversing
 thumbnail: jekyll
