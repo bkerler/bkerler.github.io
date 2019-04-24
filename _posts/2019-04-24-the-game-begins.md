@@ -35,7 +35,7 @@ So here we are, looking with our favorite hexeditor at that file, we finally see
 
 [ofp_extract.py](https://github.com/bkerler/bkerler.github.io/stuff/ofp_extract.py)
 
-So we finally have our vendor.img and we are trying to mount it in linux. It simply doesn't work. But you know, we're not giving up, right ?
+So we finally have our crafted vendor.bin and we are trying to mount it in linux. It simply doesn't work. But you know, we're not giving up, right ?
 
 Ok, obviously I missed something, but the layout looks like ext4 but with pagesize of 4096 instead of 512, still kind of weird.
 Maybe another researcher has an idea and leaves a comment ? :D
@@ -43,25 +43,25 @@ Maybe another researcher has an idea and leaves a comment ? :D
 Anyway, as we are real reversers, we know that the file we are interested into is an arm library and should start with an ELF header ".ELF", has a size of approx 300-700K and it should contain the bytepattern "004C494243006C6962632E736F006C69626170706C79706174" (which is just the library export handler for libpatchapply_jni.so). We also assume the image was just build
 and never used in real life, so we can assume all data is in sequential order and not mixed up due to the way ext4 normally works with its nodes.
 
-Using that belief, we first search for the bytepattern in our crafted vendor.bin using ofp_extract and yay, we got two hits at offset 0x25B148EB and 0x28205157. I expected that, as we should have two libraries in the system, on for 32bit and one for 64bit. Now we are seeking for the beginning of the ELF, searching for "7F454C46" (".ELF") just above the offset 0x25B148EB, which results in a hit at offset 0x25B11000.
+Using that belief, we first search for the bytepattern in our crafted vendor.bin using ofp_extract and yay, we got two hits at offsets 0x25B148EB and 0x28205157. I expected that, as we should have two libraries in the system, on for 32bit and one for 64bit. Now we are seeking for the beginning of the ELF, searching for "7F454C46" (".ELF") just above the offset 0x25B148EB, which results in a hit at offset 0x25B11000.
 
 So we only need to find the end of the binary. Being aware of the ELF structure, we know that at offset 0x20 starting from the ELF header, there is the offset for the SECTION_HEADER_LENGTH, which should be at the end of the file (in our case, section header offset length is 0x06AFB4 in little-endian). And at offset 0x2E starting from the ELF structure we see the size of a section header is 0x28 bytes and at offset 0x30 we see there are 0x1B sections in total. 
 
-To conclude : 0x06AFB4 + (0x28*0x1B) = 0x6B3EC as length based on the ELF header.
+To conclude : 0x06AFB4 + (0x28*0x1B) = 0x6B3EC as file length based on the ELF header.
 
-So we extract 0x6B3EC bytes starting from offset 0x25B11000 and store it as a file named "libapplypatch_jni.so".
+So we extract 0x6B3EC bytes starting from offset 0x25B11000 of our vendor.bin and store it as a file named "libapplypatch_jni.so".
 
 Once you got it, fire up ghidra. If you haven't created a project, do it now. Then import "libapplypatch_jni.so" using File->Import File and double click on it. If being asked for analysing the file first, do so. Well done mate, it looks like a valid arm binary :)
 
 As we are searching for an aes key with 128bit (16 bytes), let's have a look for the openssl standard implementation setting up an aes key for decryption, which is commonly used in native libraries : [aes_set_decrypt_key](https://docs.huihoo.com/doxygen/openssl/1.0.1c/crypto_2aes_2aes_8h.html#a2091bfbf02d00a2f4ce67085d1a0d0ac). Enter "aes_set_decrypt_key" in the Filter option in the Symbol Tree in Ghidra. You will see that there is one hit in the Exports table. Doubleclick it so that it is shown in the Listing window. You can see by the looks at the registers, that the function has three parameters, which are "userKey", "bits" and "key". The latter is the key context, but as we are interested in finding the correct aes key, we choose the first parameter to be interesting.
 
-Now we just need to trace back which function actually fills the first parameter of our beloved aes_set_decrypt_key function by having a look at the xrefs (just double click on them in the listing). Always stepping back in disassembly from one xref to another, we are hitting the code address 0x1c45c, then 0x64dc0, then 0x64dbc until we finally hit the code address 0x210d8 which has as an argument a pointer to a unsigned char array [16] called "realkey". 
+Now we just need to trace back which function actually fills the first parameter of our beloved aes_set_decrypt_key function by having a look at the xrefs (just double click on them in the listing). Always stepping back in disassembly from one xref to another, we are hitting the code address 0x1c45c, then 0x64dc0, then 0x64dbc until we finally hit the code address 0x210d8 which has as an argument a pointer to an unsigned char array [16] called "realkey". 
 
 ![Ghidra AES Key preview]({{ site.baseurl }}/images/ghidra_oppo.png "The realkey pointer in aes_set_decrypt_key contains the needed aes key")
 
 Double clicking the realkey pointer, voilà, starting at 0x78034, we see an aes_key "d6cf....381e". If you want to copy it, just enable the "Binary" view in Ghidra. After having a look at all the references to "aes_set_decrypt_key", we find a total of six aes keys called "userkey", "mnkey", "mkey", "testkey", "realkey" and "utilkey".
 
-We ain't got time to fully reverse the usage of each and every key, so we fit in the keys into the keys section of our python3 script [decrypter](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py), and try to decrypt an ozip for this device.
+We ain't got time to fully reverse the usage of each and every key, so we fit in the keys into the keys section of our python3 script [decrypter](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ozipdecrypt.py), and try to decrypt an ozip file for this device.
 
 ```bash
 bjk@Lappy:~/Projects/oppo_ozip_decrypt$ ./ozipdecrypt.py RMX1831EX_11_OTA_0070_all_UqwwgT6ye4J1.ozip 
