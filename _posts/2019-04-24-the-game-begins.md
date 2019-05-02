@@ -33,7 +33,7 @@ As I tend to say RTFM or in this case: Never give up, never surrender. So I sear
 
 So here we are, looking with our favorite hexeditor at that file, we finally see some sort of partition structure. The byte pattern "CAC30000" and "CAC10000" are normally used by android firmware for image reconstruction. Thus it allows us to search for a possible partition start and thus might help to find the vendor partition which we need. Over there I wrote a script for it (yeah bloody dirty hack, but who cares) :
 
-[ofp_extract.py](https://github.com/bkerler/bkerler.github.io/stuff/ofp_extract.py)
+[ofp_extract.py](https://github.com/bkerler/bkerler.github.io/blob/master/stuff/ofp_extract.py)
 
 So we finally have our crafted vendor.bin and we are trying to mount it in linux. It simply doesn't work. But you know, we're not giving up, right ?
 
