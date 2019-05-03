@@ -33,7 +33,7 @@ As I tend to say RTFM or in this case: Never give up, never surrender. So I sear
 
 So here we are, looking with our favorite hexeditor at that file, we finally see some sort of partition structure. The byte pattern "CAC30000" and "CAC10000" are normally used by android firmware for image reconstruction. Thus it allows us to search for a possible partition start and thus might help to find the vendor partition which we need. Over there I wrote a script for it (yeah bloody dirty hack, but who cares) :
 
-[ofp_extract.py](https://github.com/bkerler/bkerler.github.io/blob/master/stuff/ofp_extract.py)
+[ofp_extract.py](https://github.com/bkerler/bkerler.github.io/blob/master/stuff/ofp_extract.py) (Outdated, see update below)
 
 So we finally have our crafted vendor.bin and we are trying to mount it in linux. It simply doesn't work. But you know, we're not giving up, right ?
 
@@ -50,6 +50,8 @@ So we only need to find the end of the binary. Being aware of the ELF structure,
 To conclude : 0x06AFB4 + (0x28*0x1B) = 0x6B3EC as file length based on the ELF header.
 
 So we extract 0x6B3EC bytes starting from offset 0x25B11000 of our vendor.bin and store it as a file named "libapplypatch_jni.so".
+
+Update: [Use this script](https://github.com/bkerler/oppo_ozip_decrypt/blob/master/ofp_libextract.py) to automatically extract either libapplypatch_jni.so or the recovery.cpio.gz which contains /sbin/recovery from any oppo ofp firmware file. 
 
 Once you got it, fire up ghidra. If you haven't created a project, do it now. Then import "libapplypatch_jni.so" using File->Import File and double click on it. If being asked for analysing the file first, do so. Well done mate, it looks like a valid arm binary :)
 
@@ -76,3 +78,4 @@ So it seems that the "userkey" is obviously the aes key needed to decrypt the op
 Mission accomplished :)
 
 Stay tuned for following posts ....
+
