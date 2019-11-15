@@ -367,6 +367,12 @@ the AT!OPENLOCK challenge and response algorithm. Part 3 will have a closer look
 the firmware in order to recover the algorithm key. Part 4 will shed some light into exploitation of Qualcomm Modems
 and Hotpatching TZs.
 
+## Additional Remark
+Some people asked why I haven't used radare2. The reasons are :
+- Opening the modem in radare2, analysis never finished even after days
+- Radare2 doesn't display instruction sets and without those brackets, it's useless
+  for serious analysis, see bug commit here: https://github.com/radareorg/radare2/issues/12937
+  
 Stay tuned !
 
 
