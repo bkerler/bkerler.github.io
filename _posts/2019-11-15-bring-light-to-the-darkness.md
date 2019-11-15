@@ -368,7 +368,7 @@ the firmware in order to recover the algorithm key. Part 4 will shed some light 
 and Hotpatching TZs.
 
 ## Additional Remark
-Some people asked why I haven't used radare2. The reasons are :
+Some people asked why I haven't used radare2. Some main reasons were :
 - Opening the modem in radare2, analysis never finished even after days
 - Radare2 doesn't display instruction sets and without those brackets, it's basically useless
   for serious hexagon analysis until it's fixed, see bug commit here: https://github.com/radareorg/radare2/issues/12937
