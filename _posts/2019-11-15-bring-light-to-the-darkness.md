@@ -353,8 +353,8 @@ pointing to the function call at @0xC0B12CC0 which is the openlock_cmd_function.
 
 ![IDA func ptrs]({{site.baseurl}}/images/ida_ptr6.png)
 
-For those, who do not want to recover and rename all functions manually, I make a script "qcmodemat.py" for IDA 
-that can be downloaded over [here](https://github.com/bkerler/qc_modem_tools), that can be run using the ida script
+For those, who do not want to recover and rename all functions manually, I made a script called "qcmodemat.py" for IDA 
+that can be downloaded over [here](https://github.com/bkerler/qc_modem_tools), which can be run using the ida script
 file function after loading the elf file in IDA.
 
 ## Conclusion and Outlook
