@@ -165,8 +165,10 @@ that were made for the newer MDM9x30/MDM9x40/MDM9x5x modems.
 
 Let's search for a firmware to reverse for the em7565 module, which holds a Qualcomm MDM9x50 chipset.
 Thanks to [LTE Hacks](http://ltehacks.com/viewtopic.php?t=78), we are downloading a generic firmware over
-[here](https://drive.google.com/drive/folders/1-SnjxoYjI69G6rsCaHGIkD8uDsOYmjSa), file 
-GN3_9999999_9907259_SWI9X50C_01.09.04.00_00_GENERIC_002.019_000.exe.
+[here](https://drive.google.com/drive/folders/1-SnjxoYjI69G6rsCaHGIkD8uDsOYmjSa), file :
+```
+GN3_9999999_9907259_SWI9X50C_01.09.04.00_00_GENERIC_002.019_000.exe
+```
 
 For this, we extract the firmware the usual way :
  
@@ -201,7 +203,7 @@ Found APPS component
 bjk@none:~/em7565$ binwalk -e SWI9X50C_01.09.04.00.cwe-level-2-components/MODM9X50-DSP29X50-SWI9X50C_01.09.04.00.cwe
 ```
 
-However this time, the file "190", binwalk extracted, has a ubifs filesystem header "UBI#". In order to 
+However this time, the file "190" that binwalk extracted, has a ubifs filesystem header "UBI#". In order to 
 extract this image, we use @itsme's ubidump script, which I modified for python 3 [here](https://github.com/bkerler/qc_modem_tools).
 
 ```bash
