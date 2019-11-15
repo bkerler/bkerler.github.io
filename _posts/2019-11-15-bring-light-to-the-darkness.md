@@ -131,7 +131,7 @@ Sorry folks, there isn't yet any usable one for ghidra.
 
 The most "usable" turned out to be the plugin made by a well known hacker @itsme over [here](https://github.com/gsmk/hexagon).
 
-We will grep the .so Library for Linux [here](https://github.com/gsmk/hexagon/releases/download/v1.2/hexagon.so) and install it to the "procs" directory of IDA.
+We will download the .so Library for Linux [here](https://github.com/gsmk/hexagon/releases/download/v1.2/hexagon.so) and place it to the "procs" directory of IDA. For Windows, use the .dll instead.
  
 Fire up IDA32, open the "modem.elf" we created and select "Qualcomm Hexagon DSP v4" from the Processor type:
 
