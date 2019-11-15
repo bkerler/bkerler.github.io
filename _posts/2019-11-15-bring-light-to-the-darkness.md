@@ -368,10 +368,16 @@ the firmware in order to recover the algorithm key. Part 4 will shed some light 
 and Hotpatching TZs.
 
 ## Additional Remark
-Some people asked why I haven't used radare2. Some main reasons were :
+### Some people asked why I haven't used radare2. Some main reasons were :
 - Opening the modem in radare2, analysis never finished even after days
 - Radare2 doesn't display instruction sets and without those brackets, it's basically useless
-  for serious hexagon analysis until it's fixed, see bug commit here: https://github.com/radareorg/radare2/issues/12937
+  for serious hexagon analysis until it's fixed, see bug commit here: [here](https://github.com/radareorg/radare2/issues/12937)
+
+### Why IDA and not ghidra ?
+- Ghidra hasn't got IDE support for the instruction set brackets. @NeatMonster showed that a hexagon plugin is
+  possible and even a hexagon decompiler could work see [here](https://github.com/NationalSecurityAgency/ghidra/issues/315), 
+  but for that, parts of the GUI and API have to be changed. I'm really looking forward to those fixes happening, 
+  which may result in a hexagon plugin for ghidra, finally :)
   
 Stay tuned !
 
