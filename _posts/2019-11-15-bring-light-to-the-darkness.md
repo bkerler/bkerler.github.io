@@ -158,7 +158,7 @@ At the search result, in our case at @0x43347EB8, press "a" to get the ascii rep
 so we just press "o" at this offset.
 
 So we have successfully identified the AT!Openlock function at @0x43347EE5. Easy, huh ? Now let's see the changes
-that was made for the newer MDM9x30/MDM9x40/MDM9x5x modems.
+that were made for the newer MDM9x30/MDM9x40/MDM9x5x modems.
 
 
 ### Reversing QDSPv6 : the MDM9x50 modem
