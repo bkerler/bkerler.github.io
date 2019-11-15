@@ -301,10 +301,10 @@ internal pointer with value 0x3CC2, which seems to increase for other commands.
 
 Looking at the resulting offsets, we immediately see a structure of a possible vpointer table :
 
-'''
+```
 - String array @0xC2436D5C
 - String to internal index array (string_tbl) @0xC24382B0 
-'''
+```
 
 So in order to understand the structure of the table array, we create a pointer array for the "string_tbl" first :
 Go to the offset @0xC24382B0 where the array seems to start and press "o" to have an offset pointer. Go to @0xC24382B4 and press "d" three times, 
@@ -329,11 +329,11 @@ at @0xC2435A90 consisting of two .long values, one for the internal index and on
 
 So we can conclude that the vpointer table structure for getting the at command function pointers is:
 
-'''
+```
 - Internal index to function pointer @0xC2435A90
 - String array @0xC2436D5C
 - String to internal index array (string_tbl) @0xC24382B0 
-'''
+```
 
 We create another structure at @0xC2435A90 and label it as "func_ptr".
  
