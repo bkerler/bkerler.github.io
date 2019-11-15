@@ -1,5 +1,5 @@
 
-## Bring light to the darkness - Reversing a Qualcomm Hexagon QDSP modem for profit
+## Bring light to the darkness - Reversing a Qualcomm Hexagon QDSP modem for profit - Part 1
 
 A friendly and warm welcome to the first part of my Qualcomm reversing and exploitation blog in memory of Fravia's ORC 
 and frequently requested by my twitter followers. This research wouldn't have been possible without the great people at 
