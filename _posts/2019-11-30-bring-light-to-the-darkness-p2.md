@@ -368,7 +368,7 @@ As you can see, I used the original IDA Pro 7.4 GSMK plugin output and commented
 at the status of current hexagon disassemblers, it's not really trivial to emulate or reconstruct code in order to do any exploitation or reverse engineering. 
 
 ## Conclusion and Outlook
-In the part 2, he had a closer look at issues that come with disassemblers and learned a bit about how to reverse qualcomm hexagon QDSP v6
+In the part 2, we had a closer look at issues that come with disassemblers and learned a bit about how to reverse qualcomm hexagon QDSP v6
 binaries. We successfully were able to recover the algorithm, which you can make usage of over [here](https://github.com/bkerler/SierraWirelessGen).
 
 In the upcoming Part 3 we will have a closer look at the Netgear MR1100 devices for decrypting
