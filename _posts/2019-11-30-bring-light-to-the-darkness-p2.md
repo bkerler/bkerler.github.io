@@ -253,7 +253,7 @@ As you can see, the result is much better now. It's a PoC, so there are some man
 but for the relevant part of the algorithm it turned out to work just fine, which is what I actually needed. Feel free 
 to send some pull requests to my github if you find some bugs or if you need to add features like an emulator :) 
 
-You can grab the latest version of my diassembler over [here](https://github.com/bkerler/qc_modem_tools/blob/master/hexagon_disasm.py).
+You can grab the latest version of my disassembler over [here](https://github.com/bkerler/qc_modem_tools/blob/master/hexagon_disasm.py).
 
 ### Understanding the modem algorithm code flow
 
