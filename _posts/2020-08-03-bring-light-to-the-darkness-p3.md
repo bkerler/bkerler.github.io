@@ -116,8 +116,6 @@ Secure boot disabled.
 ```
 If the tool says "Secure boot disabled", it means that you can coldpatch and fully pwn the device :)
 
-<br/>
-<br/>
 
 ### 2. Getting device firmware
 
@@ -172,9 +170,6 @@ cm-13.1.2-ZNH2KAS3P0-bacon-signed-fastboot.zip
 https://www.androidfilehost.com/?fid=24591000424960109
 ```
 
-<br/>
-<br/>
-
 
 ### 3. Getting my qc attack framework and installing it
 
@@ -220,10 +215,6 @@ https://www.androidfilehost.com/?fid=24591000424960109
 ~/qcpatchtools $ cd ~
 ```
   
-<br/>
-<br/>
-
-
 ### 4. Modding the stock kernel
 
 #### 64 Bit BQ Aquaris X Pro MSM8953
@@ -259,8 +250,6 @@ also removes xpu restrictions and adds additional logging of tz svc
 ~ $ cp KERNEL_OUT/arch/arm64/boot/Image.gz-dtb zkernel
 ```
 
-<br/>
-
 #### 32 Bit Oneplus One MSM8974
 
 ##### 4.1. Grab the latest kernel matching your device firmware version
@@ -292,9 +281,6 @@ also removes xpu restrictions and adds additional logging of tz svc
 
 We don't copy the zImage-dtb over here because the oneplus uses specific dtb modded android
 and is already contained when extracting the boot image.
-  
-<br/>
-<br/>
 
 ### 5. Rooting the stock kernel
 
@@ -327,9 +313,7 @@ the boot.img.signed file.
 ```
 ~/android_universal $ ./makeramdisk.sh -fn boot.img -c -fs 1
 ```
-   
-<br/>
-   
+
 ##### 64 Bit BQ Aquaris X Pro MSM8953
 
 As the MSM8953 devices implement Android Verified Boot v1, you will need
@@ -348,9 +332,6 @@ to flash the file called "boot.img.rotfake".
 
 Then press enter in the makeramdisk tool to let it finish making and signing the boot image.
   
-<br/>
-<br/>
-
 ### 6. Prepare tz shellcode for code injection (either cold patch or hot patch)
 
 #### 6.1. Save the appropriate shellcode into a file "shellcode.txt"
@@ -370,8 +351,6 @@ STR  R2, [R1]
 exit:
 POP {R4-R6,PC}
 ```
-  
-<br/>
 
 ##### 64 Bit BQ Aquaris X Pro MSM8953  
 
@@ -404,9 +383,6 @@ LDP X28, X27, [SP],#0x60
 RET
 ```
 
-<br/>
-<br/>
-
 ### 7. Patching tz to allow code injection by injecting our shellcode
 
 #### 7.1. Coldpatching the tz with our own shellcode into a codecave
@@ -415,8 +391,6 @@ RET
 ~ $ cd qcpatchtools
 ```
    
-<br/>
-     
 ##### 32 Bit Oneplus One MSM8974
 
 ```
@@ -428,8 +402,6 @@ RET
       Patching done, saved as tz.patched
 ```
    
-<br/>
-    
 ##### 64 Bit BQ Aquaris X Pro MSM8953 
 
 ```
@@ -438,8 +410,6 @@ RET
      Code to patch:1f88007160000054200040b9c0035fd6220000b9c0035fd6
      Patching done, saved as tz.img.patched
 ```
-
-<br/>
   
 #### 7.2. Sign the tz.bin using own generated private key
 
@@ -447,21 +417,14 @@ RET
 ~/qcpatchtools $ ./qc_signer.py -t qsee -in tz.img.patched -out tz.signed
 ```
 
-<br/>
-<br/>
-
 ### 8. Patching aboot to allow custom ramdisk (only needed for devices with AVB, skip this step for OnePlus MSM8974)
 
 #### 8.1. Patching aboot
- 
-<br/>
  
 ##### 32 Bit Oneplus One MSM8974
 
 - Not needed
  
-<br/>
-  
 ##### 64 Bit BQ Aquaris X Pro MSM8953 
 
 Coldpatch aboot to bypass root of trust
@@ -477,12 +440,7 @@ Sign the tz.bin
 ~/qcpatchtools $ rm aboot.patched
 ```
 
-<br/>
-<br/>
-
 ### 9. Flashing modded files
-
-<br/>
 
 #### 32 Bit Oneplus One MSM8974
 
@@ -507,8 +465,6 @@ connect the usb cable. The device should enter the 9008 mode.
 Reboot the device, it should be rooted
 
 ##### 9.3. Reboot the device, it should be rooted
-
-<br/>
 
 #### 64 Bit BQ Aquaris X Pro MSM8953  
 
@@ -542,9 +498,6 @@ back to EDL usb pid 0x9008 and can then be flashed using
       
 ##### 9.4. Reboot the device, it should be rooted
   
-<br/>
-<br/>
-
 ### 10. Testing if device is rooted :D
 
 #### 10.1. TZ failure unbricking process:
@@ -577,8 +530,6 @@ Copy the custom adb key (any other will be refused):
 ~/android_universal $ ./install_adb_key.sh
 ```
 
-<br/>
-
 ##### In case the device reboots all the time into 0x900E mode:
 
 If the device doesn't boot (red light) and enters usb pid
@@ -590,8 +541,6 @@ connect the battery again to reflash the firmware using edl.
 ```
 ~/edl $ ./edl.py -w tz tz.img
 ```
-
-<br/>
 
 #### 10.2. Copy the custom adb key (any other will be refused):
   
@@ -638,12 +587,7 @@ root@bardock:/ # getprop | grep 8.1
       [ro.com.google.gmsversion]: [8.1_201810]
 ```
 
-<br/>
-<br/>
-
 ### 11. Talk to the tz (reading tz memory)
-
-<br/>  
 
 #### 32 Bit Oneplus One MSM8974
 
@@ -659,8 +603,6 @@ root@bacon:/data/local/tmp # ./qcxploit readmem 0xFE82CDA0 4
 0xFE805738
 385780FE
 ```
- 
- <br/>
  
 #### 64 Bit BQ Aquaris X Pro MSM8953
 
@@ -678,12 +620,7 @@ root@bardock:/data/local/tmp # ./qcxploit readmem 8657871c 4
   FC6FBAA9
 ```
 
-<br/>
-<br/>
-
 ### 12. Hot patch tz (writing to code cave)
-
-<br/>
 
 #### 32 Bit Oneplus One MSM8974
  
@@ -752,8 +689,6 @@ root@bacon:/data/local/tmp # ./qcxploit readmem 0xFE82830C 4
 ```
 
 ##### 12.6. For faults, see /d/tzdbg/log
-  
-<br/>
   
 #### 64 Bit BQ Aquaris X Pro MSM8953
 
