@@ -151,8 +151,7 @@ Requirements :
   ~/edl $ cd ..
   ```
 
-####### or getting the device firmware to attack
-
+###### or getting the device firmware to attack
 - 64 Bit BQ Aquaris X Pro MSM8953
     2.7.2_20190620-1410-bardockpro_bq-user-2169-Fastboot-FW.zip
     ```
