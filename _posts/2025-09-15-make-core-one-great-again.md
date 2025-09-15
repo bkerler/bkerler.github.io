@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      Reversing an Oppo ozip encryption key from encrypted firmware
-date:       2019-04-24 19:12:00
-summary:    How to find an aes key for a Realme ozip firmware file.
-categories: reversing
+title:      Making Prusa Core One great (and silent) again
+date:       2025-09-15 12:40:00
+summary:    How to improve your Prusa Core One 3d printer
+categories: 3dprinting
 thumbnail: jekyll
 tags:
  - firmware
