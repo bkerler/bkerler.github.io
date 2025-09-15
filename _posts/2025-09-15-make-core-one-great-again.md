@@ -60,6 +60,9 @@ to make sure it is perfectly centered.
 #### Loudness on high speed printing in the night
 - Use the stealth profile ```Settings->Stealth Mode``` to slow down fast movements
 
+#### Belt tension not possible due to nut turning in tension idler
+- Best print BEFORE this happens by replacing the tensioner pulley with [this version](https://www.printables.com/model/1360563-core-one-belt-tensioner-pulley-to-take-a-threaded/files)
+  
 ### Printing issues
 
 #### Residue at the nozzle when printing
