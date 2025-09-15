@@ -15,7 +15,7 @@ tags:
 
 ### Tuning and calibration using firmware >= 6.4.0-alpha
 
-#### 1. Belt tuning
+#### Belt tuning
 - If the printer is turned on, first disable the motors using ```Control->Disable motors``` in order not to break the hw board due to voltage overload
 
 - Move the extruder to the center and the gantry to the back
@@ -32,7 +32,7 @@ tags:
   If everything is perfect, you should be around 91 - 93 hz. If you see that the upper belt frequency is much lower than the lower belt frequency,
   it means that the gantry isn't square or you haven't tensioned the belt equally. Restart with step "loosening the belt completely".
 
-#### 2. Input shaper
+#### Input shaper
 - Grab/Buy the prusa [accelerometer](https://help.prusa3d.com/article/accelerometer-core-one-mk4-s-mk3-9-s_729349) ![accelerometer](https://cdn.help.prusa3d.com/wp-content/uploads/2025/04/410eb67ff568fddaa1019583b75ab776_painted.jpeg) 
 - Open the back plug and lay the accelerometer at the back side of the sheet in order to make sure it won't be damaged by homing ![connection]({{site.baseurl}}/images/calibration.jpeg)
 - Connect the accelerometer to the board ![picture](https://cdn.help.prusa3d.com/wp-content/uploads/2025/03/37cbb884af39165912f63c44aaa69454.jpg)
@@ -44,7 +44,7 @@ tags:
 - Calibration does start with x and then with y input shaper calibration
 - Once it asks to "Store and use computed values" press ```Yes``` and you're done
 
-#### 3. Phase stepping
+#### Phase stepping
 - Let the accelerometer connected
 - Go to ```Return```, then being in the  ```Settings``` menu, select ```Phase Stepping->Calibration```, press ```Continue```
 - Once calibration is done, it should list "Motor X/Y vibration reduced by xx%"
@@ -57,7 +57,6 @@ tags:
 the pulley screw, loosen the pulley screw, place it gently up or down using a flat screwdriver in the right direction, then retighten the pulley and move the gantry 
 to make sure it is perfectly centered.
 ![pulley]({{site.baseurl}}/images/pulley.png)
-
 2. Make sure that the rods are slightly lubricated using sythetic grease (I recommend: Superlube 21030)
 
 #### Noise when moving z-axis upwards/downwards
@@ -74,7 +73,7 @@ to make sure it is perfectly centered.
 
 ### Printing issues
 
-### Residue at the nozzle when printing
+#### Residue at the nozzle when printing
 - Residue on the nozzle when printing leading to print fails => In PrusaSlicer, set ```Printers, General, Size and coordinates -> Z offset``` to 0.1 mm
 - If needed, reduce the Filament extrusion multiplier in PrusaSlicer ```Filaments, Filament -> Extrusion multiplier``` to a lower value, best print the calibration cube, see [here](https://help.prusa3d.com/article/extrusion-multiplier-calibration_2257) 
 
