@@ -1,3 +1,14 @@
+---
+layout:     post
+title:      Make Prusa Core One great again
+date:       2025-09-15 12:49:00
+summary:    How to fix loudness/print issues with Prusa Core One printing
+categories: 3d_printing
+thumbnail: jekyll
+tags:
+ - 3d_printing
+---
+
 ## Making Prusa Core One great (and silent) again
 - For fixing loudness on printing
 - For fixing printing issues
