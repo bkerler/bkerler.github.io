@@ -1,13 +1,3 @@
----
-layout:     post
-title:      Making Prusa Core One great (and silent) again
-date:       2025-09-15 12:40:00
-summary:    How to improve your Prusa Core One 3d printer
-categories: 3dprinting
-thumbnail: jekyll
-tags:
- - firmware
----
 
 ## Making Prusa Core One great (and silent) again
 - For fixing loudness on printing
