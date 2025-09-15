@@ -1,4 +1,3 @@
-
 ## Making Prusa Core One great (and silent) again
 - For fixing loudness on printing
 - For fixing printing issues
